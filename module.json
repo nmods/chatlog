@@ -1,0 +1,7 @@
+{
+    "disableAutoUpdate": false,
+    "name": "chatlog",
+    "author": "NMods",
+    "description": "Chatlog",
+    "servers": ["https://raw.githubusercontent.com/nmods/chatlog/master/"]
+}
