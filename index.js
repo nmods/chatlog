@@ -29,13 +29,13 @@ if (!fs.existsSync(config.path)) {
 module.exports = function ChatLog(mod) {
     let pchat = {}
 
-    mod.hook('S_CHAT', 2, DEFAULT_HOOK_SETTINGS, event => {
+    mod.hook('S_CHAT', 3, DEFAULT_HOOK_SETTINGS, event => {
         let message = S.decodeHTMLEntities(S.stripTags(event.message));
         let channelno = chattype[event.channel];
         if (!channelno) channelno = event.channel.toString();
         for (let file of config.files) {
             if (file.channels.includes(channelno)) {
-                log(formatMessage(message, channelno, event.authorName, config.format.chat), file.fileName)
+                log(formatMessage(message, channelno, event.name, config.format.chat), file.fileName)
             }
         }
 
@@ -52,12 +52,12 @@ module.exports = function ChatLog(mod) {
         }
     });
 
-    mod.hook('S_WHISPER', 2, DEFAULT_HOOK_SETTINGS, event => {
+    mod.hook('S_WHISPER', 3, DEFAULT_HOOK_SETTINGS, event => {
         let message = S.decodeHTMLEntities(S.stripTags(event.message));
         for (let file of config.files) {
             if (file.channels.includes('whisper')) {
-                if (event.authorName != mod.game.me.name) {
-                    log(formatMessage(message, '', event.authorName, config.format.whisper.from), file.fileName)
+                if (event.name != mod.game.me.name) {
+                    log(formatMessage(message, '', event.name, config.format.whisper.from), file.fileName)
                 } else {
                     log(formatMessage(message, '', event.recipient, config.format.whisper.to), file.fileName)
                 }
@@ -66,8 +66,8 @@ module.exports = function ChatLog(mod) {
 
     });
 
-    mod.hook('S_JOIN_PRIVATE_CHANNEL', 1, event => {
-        pchat[event.id] = event.name;
+    mod.hook('S_JOIN_PRIVATE_CHANNEL', 2, event => {
+        pchat[event.channelId] = event.name;
     });
 
     function formatMessage(msg, channel, author, format) {
