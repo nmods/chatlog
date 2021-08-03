@@ -29,7 +29,7 @@ if (!fs.existsSync(config.path)) {
 module.exports = function ChatLog(mod) {
     let pchat = {}
 
-    mod.hook('S_CHAT', 3, DEFAULT_HOOK_SETTINGS, event => {
+    mod.hook('S_CHAT', 4, DEFAULT_HOOK_SETTINGS, event => {
         let message = S.decodeHTMLEntities(S.stripTags(event.message));
         let channelno = chattype[event.channel];
         if (!channelno) channelno = event.channel.toString();
@@ -52,7 +52,7 @@ module.exports = function ChatLog(mod) {
         }
     });
 
-    mod.hook('S_WHISPER', 3, DEFAULT_HOOK_SETTINGS, event => {
+    mod.hook('S_WHISPER', 4, DEFAULT_HOOK_SETTINGS, event => {
         let message = S.decodeHTMLEntities(S.stripTags(event.message));
         for (let file of config.files) {
             if (file.channels.includes('whisper')) {
