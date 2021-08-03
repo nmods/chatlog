@@ -93,7 +93,7 @@ module.exports = function ChatLog(mod) {
     function log(text, fileName) {
         fs.appendFile(config.path + fileName + '.txt', text + '\n', error => {
             if (error) {
-                console.error("Error writing file", error);
+                console.error("Error writing file", error); 
             }
         });
     }
